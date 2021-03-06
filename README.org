@@ -7,6 +7,8 @@
 * Nvim-Nuake
 A NeoVim plugin written in Lua that wraps around the built-in NeoVim terminal,
 inspired by [[https://github.com/Lenovsky/nuake][Lenovsky/nuake]] and [[https://github.com/akinsho/nvim-toggleterm.lua][akinsho/nvim-toggleterm.lua]]
+
+#+ATTR_ORG: :width 1200
 [[file:doc/pic.png][Photo]]
 
 ** Functionalities
