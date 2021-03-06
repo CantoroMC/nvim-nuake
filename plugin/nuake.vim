@@ -15,8 +15,8 @@ command! -nargs=* -complete=shellcmd
 command! -nargs=0
       \ NuakeToggle        lua require'nuake'.toggle()
 
-nnoremap <silent> <Plug>NuakeToggle        :<C-U>NuakeToggle<CR>
-nmap <unique> <C-\>       <Plug>NuakeToggle
+nnoremap <silent> <Plug>NuakeToggle :<C-U>NuakeToggle<CR>
+nmap <unique> <C-\> <Plug>NuakeToggle
 
 " REPL:
 command! -nargs=0 -count=1
