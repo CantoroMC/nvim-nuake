@@ -51,9 +51,19 @@ repeat the action with the =.-operator=.
 The first two allow also a count before the mappings in order to specify
 the numbers of lines and paragraphs(delimited by empty lines).
 
+** Usage
+#+begin_src lua
+require'nuake'.setup{
+  pos                    = 'right',
+  rel_size               = 0.40,
+  close_if_last_standing = true,
+  shade_terminals        = true,
+  start_in_insert        = false,
+}
+#+end_src
+Possible values for position are 'right', 'left', 'top' and 'bottom'.
+
 ** Issues and Todos
-- Vim airline is not rendered ideally (don't now the behaviour with other
-  status-line plugins)
 - If a nuake instance has not already being created, then the using the "REPL"
   commands only opens nuake but don't send the text (you have to recall it).
   (I have no figure out why)
