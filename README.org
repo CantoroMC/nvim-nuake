@@ -2,42 +2,42 @@
 #+AUTHOR: Marco Cantoro
 #+EMAIL: marco.cantoro92@outlook.it
 #+STARTUP: overview
-#+OPTIONS: toc:2 num:3
+#+OPTIONS: toc:3 num:3
 
 * Nvim-Nuake
 A NeoVim plugin written in Lua that wraps around the built-in NeoVim terminal,
-inspired by [[https://github.com/Lenovsky/nuake][Lenovsky/nuake]] and [[https://github.com/akinsho/nvim-toggleterm.lua][akinsho/nvim-toggleterm.lua]]
+  inspired by [[https://github.com/Lenovsky/nuake][Lenovsky/nuake]] and [[https://github.com/akinsho/nvim-toggleterm.lua][akinsho/nvim-toggleterm.lua]]
 
-#+ATTR_ORG: :width 1200
-[[file:doc/pic.png][Photo]]
+#+ATTR_HTML: :style margin-left: auto; margin-right: auto;
+  [[./doc/pic.png]]
 
 ** Functionalities
-The plugin is meant to provide a quick access to the builtin terminal with, in
-my opinion, good buffer and windows option.
-Just one Nuake istance is allowed per-tab, for additional terminal you should
-rely on the builtin terminal.
+  The plugin is meant to provide a quick access to the builtin terminal with, in
+  my opinion, good buffer and windows option.
+  Just one Nuake istance is allowed per-tab, for additional terminal you should
+  rely on the builtin terminal.
 
 *** Toggle
-Command =NuakeToggle=, toggle on/off the nuake terminal
+  Command =NuakeToggle=, toggle on/off the nuake terminal
 #+begin_src vim
-command! -nargs=0 NuakeToggle lua require'nuake'.toggle()
+  command! -nargs=0 NuakeToggle lua require'nuake'.toggle()
 #+end_src
 
-Mapping to the toggle command is by default =<C-\>= but can be changed with
+  Mapping to the toggle command is by default =<C-\>= but can be changed with
 #+begin_src vim
-nmap <unique> <C-\> <Plug>NuakeToggle
+  nmap <unique> <C-\> <Plug>NuakeToggle
 #+end_src
 
 *** Execute
-Command =NuakeExec what you want= open a nuake instance and spawn the command
+  Command =NuakeExec what you want= open a nuake instance and spawn the command
 #+begin_src vim
-command! -nargs=* -complete=shellcmd NuakeExec lua require'nuake'.exec(<q-args>)
+  command! -nargs=* -complete=shellcmd NuakeExec lua require'nuake'.exec(<q-args>)
 #+end_src
 
 *** Repl
-These functionalities are used to send to the current tab's nuake the desired
-text from the current buffer.
-Commands =NuakeSendLine== =NuakeSendParagraph= =NuakeSendBuffer= and =NuakeSendSelection=
+  These functionalities are used to send to the current tab's nuake the desired
+  text from the current buffer.
+  Commands =NuakeSendLine= =NuakeSendParagraph= =NuakeSendBuffer= and =NuakeSendSelection=
 
 Mappings(here the default values Emacs style)
 #+begin_src vim
