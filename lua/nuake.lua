@@ -133,8 +133,10 @@ end
 function M.vim_resized()
   nuake = nuakes[fn.tabpagenr()]
   winnr = fn.bufwinnr(nuake.bufnr)
-  cmd(winnr .. 'resize ' .. geometry(nuake.win_id))
-  cmd 'redraw!'
+  if isVisible(nuake.win_id) then
+    cmd(winnr .. 'resize ' .. geometry(nuake.win_id))
+    cmd 'redraw'
+  end
 end
 
 -------------------------------------------------------------------------------
