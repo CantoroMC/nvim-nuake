@@ -72,16 +72,16 @@ local function geometry(win_id)
   local mode, size
 
   if plug_settings.pos == 'bottom' then
-    mode = isVisible(win_id) and '' or 'botright '
+    mode = 'botright '
     size = math.floor(plug_settings.rel_size * (vim.o.lines - 2))
   elseif plug_settings.pos == 'top' then
-    mode = isVisible(win_id) and '' or 'topleft '
+    mode = 'topleft '
     size = math.floor(plug_settings.rel_size * (vim.o.lines - 2))
   elseif plug_settings.pos == 'right' then
-    mode = isVisible(win_id) and '' or 'botright vertical '
+    mode = 'botright vertical '
     size = math.floor(plug_settings.rel_size * vim.o.columns)
   elseif plug_settings.pos == 'left' then
-    mode = isVisible(win_id) and '' or 'topleft vertical '
+    mode = 'topleft vertical '
     size = math.floor(plug_settings.rel_size * vim.o.columns)
   else
     print(string.format('%s is not a valid option for nuake.pos', plug_settings.pos))
@@ -127,15 +127,6 @@ end
 function M.hide()
   if nuakes[fn.tabpagenr()] then
     nuakes[fn.tabpagenr()].win_id = -1
-  end
-end
-
-function M.vim_resized()
-  nuake = nuakes[fn.tabpagenr()]
-  winnr = fn.bufwinnr(nuake.bufnr)
-  if isVisible(nuake.win_id) then
-    cmd(winnr .. 'resize ' .. geometry(nuake.win_id))
-    cmd 'redraw'
   end
 end
 
@@ -295,9 +286,6 @@ function M.setup(user_settings)
     local aucmds = {
       { 'BufEnter', '*',
         "++nested", "lua require'nuake'.close_if_last_standing()"
-      },
-      { 'VimResized', '*',
-        "lua require'nuake'.vim_resized()"
       },
     }
     create_augs({nuake_aug = aucmds})
