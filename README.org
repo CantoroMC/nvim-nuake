@@ -25,7 +25,7 @@ A NeoVim plugin written in Lua that wraps around the built-in NeoVim terminal,
 
   Mapping to the toggle command is by default =<C-\>= but can be changed with
 #+begin_src vim
-  nmap <unique> <C-\> <Plug>NuakeToggle
+  nmap <C-\> <Plug>NuakeToggle
 #+end_src
 
 *** Execute
@@ -41,10 +41,10 @@ A NeoVim plugin written in Lua that wraps around the built-in NeoVim terminal,
 
 Mappings(here the default values Emacs style)
 #+begin_src vim
-nmap <unique> <C-\><C-c><C-l> <Plug>NuakeSendLine
-nmap <unique> <C-\><C-c><C-p> <Plug>NuakeSendParagraph
-nmap <unique> <C-\><C-c><C-b> <Plug>NuakeSendBuffer
-xmap <unique> <C-\><C-c>      <Plug>NuakeSendSelection
+nmap <C-\><C-c><C-l> <Plug>NuakeSendLine
+nmap <C-\><C-c><C-p> <Plug>NuakeSendParagraph
+nmap <C-\><C-c><C-b> <Plug>NuakeSendBuffer
+xmap <C-\><C-c>      <Plug>NuakeSendSelection
 #+end_src
 The first three mappings use tpope(the lord of the Vims) vim-repeat to allow to
 repeat the action with the =.-operator=.

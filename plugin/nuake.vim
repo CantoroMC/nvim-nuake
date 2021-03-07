@@ -16,7 +16,9 @@ command! -nargs=0
       \ NuakeToggle        lua require'nuake'.toggle()
 
 nnoremap <silent> <Plug>NuakeToggle :<C-U>NuakeToggle<CR>
-nmap <unique> <C-\> <Plug>NuakeToggle
+if !hasmapto('<Plug>NuakeToggle', 'n') && maparg('<C-\>', 'n') ==# ''
+  nmap <C-\> <Plug>NuakeToggle
+end
 
 " REPL:
 command! -nargs=0 -count=1
@@ -32,7 +34,16 @@ nnoremap <silent> <Plug>NuakeSendLine      :<C-U>execute v:count1.'NuakeSendLine
 nnoremap <silent> <Plug>NuakeSendParagraph :<C-U>execute v:count1.'NuakeSendParagraph'<CR>
 nnoremap <silent> <Plug>NuakeSendBuffer    :<C-U>NuakeSendBuffer<CR>
 xnoremap <silent> <Plug>NuakeSendSelection :<C-U>NuakeSendSelection<CR>
-nmap <unique> <C-\><C-c><C-l> <Plug>NuakeSendLine
-nmap <unique> <C-\><C-c><C-p> <Plug>NuakeSendParagraph
-nmap <unique> <C-\><C-c><C-b> <Plug>NuakeSendBuffer
-xmap <unique> <C-\><C-c>      <Plug>NuakeSendSelection
+
+if !hasmapto('<Plug>NuakeSendLine', 'n') && maparg('<C-\><C-c><C-l>', 'n') ==# ''
+  nmap <C-\><C-c><C-l> <Plug>NuakeSendLine
+end
+if !hasmapto('<Plug>NuakeSendParagraph', 'n') && maparg('<C-\><C-c><C-p>', 'n') ==# ''
+  nmap <C-\><C-c><C-p> <Plug>NuakeSendParagraph
+end
+if !hasmapto('<Plug>NuakeSendBuffer', 'n') && maparg('<C-\><C-c><C-b>', 'n') ==# ''
+  nmap <C-\><C-c><C-b> <Plug>NuakeSendBuffer
+end
+if !hasmapto('<Plug>NuakeSendSelection', 'x') && maparg('<C-\><C-c>', 'x') ==# ''
+  xmap <C-\><C-c> <Plug>NuakeSendSelection
+end
