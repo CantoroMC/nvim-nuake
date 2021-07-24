@@ -7,8 +7,16 @@ local api = vim.api
 local shadings = require'nuake.shadings'
 
 local plug_settings = {
-  pos                    = 'right',
-  rel_size               = 0.40,
+  is_floating = true,
+  buffer = {
+    pos      = 'bottom',
+    rel_size = 0.4,
+  },
+  float = {
+    pos        = 'center',
+    rel_height = 0.4,
+    rel_width  = 0.8,
+  },
   close_if_last_standing = true,
   shade_terminals        = true,
   start_in_insert        = false,
@@ -71,20 +79,20 @@ end
 local function geometry(win_id)
   local mode, size
 
-  if plug_settings.pos == 'bottom' then
+  if plug_settings.buffer.pos == 'bottom' then
     mode = 'botright '
-    size = math.floor(plug_settings.rel_size * (vim.o.lines - 2))
-  elseif plug_settings.pos == 'top' then
+    size = math.floor(plug_settings.buffer.rel_size * (vim.o.lines - 2))
+  elseif plug_settings.buffer.pos == 'top' then
     mode = 'topleft '
-    size = math.floor(plug_settings.rel_size * (vim.o.lines - 2))
-  elseif plug_settings.pos == 'right' then
+    size = math.floor(plug_settings.buffer.rel_size * (vim.o.lines - 2))
+  elseif plug_settings.buffer.pos == 'right' then
     mode = 'botright vertical '
-    size = math.floor(plug_settings.rel_size * vim.o.columns)
-  elseif plug_settings.pos == 'left' then
+    size = math.floor(plug_settings.buffer.rel_size * vim.o.columns)
+  elseif plug_settings.buffer.pos == 'left' then
     mode = 'topleft vertical '
-    size = math.floor(plug_settings.rel_size * vim.o.columns)
+    size = math.floor(plug_settings.buffer.rel_size * vim.o.columns)
   else
-    print(string.format('%s is not a valid option for nuake.pos', plug_settings.pos))
+    print(string.format('%s is not a valid option for nuake.buffer.pos', plug_settings.buffer.pos))
     mode = isVisible(win_id) and '' or 'botright '
     size = math.floor(0.25 * (vim.o.lines - 2))
   end
@@ -132,15 +140,52 @@ end
 
 -------------------------------------------------------------------------------
 --- Toggle the terminal
+
+local function open_float(nuake)
+  local width  = vim.opt.columns:get()
+  local height = vim.opt.lines:get()
+
+  local win_H = math.ceil(height * plug_settings.float.rel_height)
+  local win_W = math.ceil(width * plug_settings.float.rel_width)
+
+  local columns = math.ceil((width - win_W)/2)
+  local rows
+  if plug_settings.float.pos == 'center' then
+    rows    = math.ceil((height - win_H)/2 - 1)
+  elseif plug_settings.float.pos == 'bottom' then
+    rows = height
+  elseif plug_settings.float.pos == 'top' then
+    rows = 0
+  end
+
+  local opts = {
+    relative = 'editor',
+    row      = rows,
+    col      = columns,
+    width    = win_W,
+    height   = win_H,
+    style    = 'minimal',
+    border   = 'rounded',
+  }
+
+  return api.nvim_open_win(nuake.buf_nr, true, opts)
+end
+
 local function open(nuake)
-  cmd('silent keepalt '..geometry(nuake.win_id)..' split')
-  nuake.win_id = fn.win_getid()
+  if plug_settings.is_floating then
+    nuake.win_id = open_float(nuake)
+  else
+    cmd('silent keepalt '..geometry(nuake.win_id)..' split')
+    nuake.win_id = fn.win_getid()
+  end
+
   -- Does the buffer already exist?
   if fn.bufexists(nuake.bufnr) == 0 then
     -- Create a new empty buffer and set it as the current buf and win
     nuake.bufnr = api.nvim_create_buf(false,false)
     api.nvim_set_current_buf(nuake.bufnr)
     api.nvim_win_set_buf(nuake.win_id, nuake.bufnr)
+
     -- Open a terminal
     nuake.job_id = fn.termopen(vim.o.shell, { detach = false })
     set_buf_opts(nuake)
