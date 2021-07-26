@@ -18,7 +18,8 @@ local plug_settings = {
     rel_width  = 0.8,
   },
   close_if_last_standing = true,
-  shade_terminals        = true,
+  shade_terminals        = false,
+  shade_percent          = -20,
   start_in_insert        = false,
 }
 
@@ -57,7 +58,7 @@ local function set_buf_opts(nuake)
   vim.bo[bufnr].modified        = false
 
   if plug_settings.shade_terminals then
-    shadings.set_highlights(-30)
+    shadings.set_highlights(plug_settings.shade_percent or -30)
     shadings.shades()
   end
 end
