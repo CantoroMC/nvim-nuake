@@ -20,7 +20,7 @@ local plug_settings = {
   close_if_last_standing = true,
   shade_terminals        = false,
   shade_percent          = -20,
-  start_in_insert        = false,
+  start_in_insert        = true,
 }
 
 local M = {}
