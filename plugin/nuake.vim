@@ -8,42 +8,27 @@ if exists('g:loaded_nuake')
 endif
 let g:loaded_nuake = 1
 
+command! -nargs=* -complete=shellcmd NuakeExec          lua require'nuake'.exec(<q-args>)
+command! -nargs=0                    Nuake              lua require'nuake'.toggle()
+command! -nargs=0 -count=1           NuakeSendLine      lua require'nuake'.send_line(<count>)
+command! -nargs=0 -count=1           NuakeSendParagraph lua require'nuake'.send_paragraph(<count>)
+command! -nargs=0                    NuakeSendBuffer    lua require'nuake'.send_buf()
+command! -nargs=0 -range             NuakeSendSelection lua require'nuake'.send_selection()
 
-" Main:
-command! -nargs=* -complete=shellcmd
-      \ NuakeExec          lua require'nuake'.exec(<q-args>)
-command! -nargs=0
-      \ NuakeToggle        lua require'nuake'.toggle()
-
-nnoremap <silent> <Plug>NuakeToggle :<C-U>NuakeToggle<CR>
-if !hasmapto('<Plug>NuakeToggle', 'n') && maparg('<C-\>', 'n') ==# ''
-  nmap <C-\> <Plug>NuakeToggle
-end
-
-" REPL:
-command! -nargs=0 -count=1
-      \ NuakeSendLine      lua require'nuake'.send_line(<count>)
-command! -nargs=0 -count=1
-      \ NuakeSendParagraph lua require'nuake'.send_paragraph(<count>)
-command! -nargs=0
-      \ NuakeSendBuffer    lua require'nuake'.send_buf()
-command! -nargs=0 -range
-      \ NuakeSendSelection lua require'nuake'.send_selection()
-
+nnoremap <silent> <Plug>Nuake              :<C-U>Nuake<CR>
 nnoremap <silent> <Plug>NuakeSendLine      :<C-U>execute v:count1.'NuakeSendLine'<CR>
 nnoremap <silent> <Plug>NuakeSendParagraph :<C-U>execute v:count1.'NuakeSendParagraph'<CR>
 nnoremap <silent> <Plug>NuakeSendBuffer    :<C-U>NuakeSendBuffer<CR>
 xnoremap <silent> <Plug>NuakeSendSelection :<C-U>NuakeSendSelection<CR>
 
-if !hasmapto('<Plug>NuakeSendLine', 'n') && maparg('<C-\><C-c><C-l>', 'n') ==# ''
-  nmap <C-\><C-c><C-l> <Plug>NuakeSendLine
-end
-if !hasmapto('<Plug>NuakeSendParagraph', 'n') && maparg('<C-\><C-c><C-p>', 'n') ==# ''
-  nmap <C-\><C-c><C-p> <Plug>NuakeSendParagraph
-end
-if !hasmapto('<Plug>NuakeSendBuffer', 'n') && maparg('<C-\><C-c><C-b>', 'n') ==# ''
-  nmap <C-\><C-c><C-b> <Plug>NuakeSendBuffer
-end
-if !hasmapto('<Plug>NuakeSendSelection', 'x') && maparg('<C-\><C-c>', 'x') ==# ''
-  xmap <C-\><C-c> <Plug>NuakeSendSelection
-end
+function! s:remap(name, keys, mode) abort
+  if !hasmapto('<Plug> . a:name') && maparg(a:keys, a:mode) ==# ''
+    execute a:mode . 'map ' . a:keys . ' <Plug>' . a:name
+  endif
+endfunction
+
+call s:remap('Nuake',              '<C-\>',           'n')
+call s:remap('NuakeSendLine',      '<C-\><C-c><C-l>', 'n')
+call s:remap('NuakeSendParagraph', '<C-\><C-c><C-p>', 'n')
+call s:remap('NuakeSendBuffer',    '<C-\><C-c><C-b>', 'n')
+call s:remap('NuakeSendSelection', '<C-\><C-c><C-l>', 'x')
