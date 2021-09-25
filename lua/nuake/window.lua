@@ -48,7 +48,7 @@ function Win.float(bufnr, settings)
     width    = winW,
     height   = winH,
     style    = 'minimal',
-    border   = 'rounded',
+    border   = 'double',
   }
 
   return vim.api.nvim_open_win(bufnr, true, opts)
