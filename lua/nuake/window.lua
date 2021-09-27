@@ -1,10 +1,8 @@
 local Win = {}
 
 function Win.buf_opts(bufnr, filetype)
-  vim.bo[bufnr].filetype  = filetype
-  vim.bo[bufnr].buflisted = false
-  vim.bo[bufnr].swapfile  = false
-  vim.bo[bufnr].modified  = false
+  vim.bo[bufnr].filetype = filetype
+  vim.bo[bufnr].modified = false
 end
 
 function Win.win_opts(winid, to_start_insert)
@@ -58,20 +56,20 @@ end
 function Win.split_geometry(winid, settings)
   local mode, size
 
-  if settings.pos == 'bottom' then
+  if settings.position == 'bottom' then
     mode = 'botright '
     size = math.floor(settings.rel_size * (vim.o.lines - 2))
-  elseif settings.pos == 'top' then
+  elseif settings.position == 'top' then
     mode = 'topleft '
     size = math.floor(settings.rel_size * (vim.o.lines - 2))
-  elseif settings.pos == 'right' then
+  elseif settings.position == 'right' then
     mode = 'botright vertical '
     size = math.floor(settings.rel_size * vim.o.columns)
-  elseif settings.pos == 'left' then
+  elseif settings.position == 'left' then
     mode = 'topleft vertical '
     size = math.floor(settings.rel_size * vim.o.columns)
   else
-    print(string.format('%s is not a valid option for nuake.buffer.pos', settings.pos))
+    print(string.format('%s is not a valid option for nuake.view.buffer.position', settings.position))
     mode = Win.is_visible(winid) and '' or 'botright '
     size = math.floor(0.25 * (vim.o.lines - 2))
   end

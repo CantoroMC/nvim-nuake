@@ -3,15 +3,17 @@ local Tools = require'nuake.tools'
 local Win   = require'nuake.window'
 
 Nuake.settings = {
-  is_floating = true,
-  buffer = {
-    pos      = 'bottom',
-    rel_size = 0.4,
-  },
-  float = {
-    position   = 'center',
-    rel_height = 0.4,
-    rel_width  = 0.8,
+  view = {
+    floating = true,
+    buffer = {
+      position = 'bottom',
+      rel_size = 0.4,
+    },
+    float = {
+      position   = 'center',
+      rel_height = 0.4,
+      rel_width  = 0.8,
+    },
   },
   close_if_last_standing = true,
   start_in_insert        = true,
@@ -49,10 +51,10 @@ end
 --- Toggle the terminal
 
 local function open(nuake)
-  if Nuake.settings.is_floating then
-    nuake.win_id = Win.float(nuake.bufnr, Nuake.settings.float)
+  if Nuake.settings.view.floating then
+    nuake.win_id = Win.float(nuake.bufnr, Nuake.settings.view.float)
   else
-    vim.cmd('silent keepalt '..Win.split_geometry(nuake.win_id, Nuake.settings.buffer)..' split')
+    vim.cmd('silent keepalt '..Win.split_geometry(nuake.win_id, Nuake.settings.view.buffer)..' split')
     nuake.win_id = vim.fn.win_getid()
   end
 
@@ -60,7 +62,6 @@ local function open(nuake)
   if vim.fn.bufexists(nuake.bufnr) == 0 then
     -- Create a new empty buffer and set it as the current buf and win
     nuake.bufnr = vim.api.nvim_create_buf(false,false)
-    vim.api.nvim_set_current_buf(nuake.bufnr)
     vim.api.nvim_win_set_buf(nuake.win_id, nuake.bufnr)
 
     -- Open a terminal
