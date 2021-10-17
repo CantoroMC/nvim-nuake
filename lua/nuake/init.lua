@@ -89,10 +89,10 @@ local function open(nuake)
   else
     vim.cmd('buffer '..nuake.bufnr)
   end
-    Win.win_opts(nuake.win_id, Nuake.settings.start_in_insert)
+  Win.win_opts(nuake.win_id, Nuake.settings.start_in_insert)
 
-    -- Save it to the list of nuakes
-    nuakes[vim.fn.tabpagenr()] = nuake
+  -- Save it to the list of nuakes
+  nuakes[vim.fn.tabpagenr()] = nuake
 end
 
 local function close(nuake)
